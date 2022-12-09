@@ -1,0 +1,20 @@
+{% extends 'Dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="account">
+	<div class="container">
+        <div class="register" style="align-items: center;">
+            <h2>Multiple Failed Attempts</h2>
+
+            <p style="color: #000000;display: block;font-size: 1.9em;margin: 1em 0 1.5em 0;line-height: 1.8em;width: 95%;">
+                More than {{failure_limit}} login attempts for User, <span>{{username}}</span>. Please Try
+                again after {{cooloff_time}} (hours).
+            </p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

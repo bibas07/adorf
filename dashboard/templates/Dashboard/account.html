@@ -1,0 +1,54 @@
+{% extends 'Dashboard/base.html' %}
+{% load static%}
+
+{% block content %}
+
+<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: slideInLeft;">
+				<li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Account</li>
+			</ol>
+		</div>
+	</div>
+<div class="account">
+	<div class="container">
+		<h2>Account</h2>
+		<div class="account_grid">
+			   <div class="col-md-6 login-right">
+				<form method="post">{% csrf_token %}
+					<span>Username</span>
+					<input type="text" id="username" name="username" required data-error-msg="Enter Your Username">
+				
+					<span>Password</span>
+					<input type="password" name="password" required data-error-msg="Enter Your Password">
+
+					<script src='https://www.google.com/recaptcha/api.js'></script>
+					<div class="g-recaptcha" data-sitekey="6LdHsCkcAAAAAFs3QgFZiDUx2npNW3-zrg7miRgp"></div>
+
+					<div class="clearfix"> </div>
+
+					<div class="word-in">
+				  		<a class="forgot" href="{% url 'reset_password' %}">Forgot Your Password?</a>
+				 		 <input id="login" type="submit" value="Login">
+				  	</div>
+
+					{{form.errors}}
+					 {% for message in messages %}
+						<div class="alert alert-{{message.tags}}"><p>{{message}}</p></div>
+					 {% endfor %}
+
+			    </form>
+			   </div>	
+			    <div class="col-md-6 login-left">
+			  	 <h4>NEW CUSTOMERS</h4>
+				 <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+				 <a class="acount-btn" href="{% url 'register' %}">Create an Account</a>
+			   </div>
+			   <div class="clearfix"> </div>
+			 </div>
+	</div>
+</div>
+
+
+{% endblock %}

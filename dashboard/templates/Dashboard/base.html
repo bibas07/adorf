@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+<title>ADORF FASHION | Home</title>
+<link href="{% static 'css/bootstrap-3.1.1.min.css' %}" rel='stylesheet' type='text/css' />
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="ADORF FASHION" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,500,400italic,500italic,700,700italic' rel='stylesheet' type='text/css'>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/simpleCart.min.js' %}"> </script>
+
+
+
+<script src="{% static 'js/responsiveslides.min.js' %}"></script>
+   <script>
+    $(function () {
+      $("#slider").responsiveSlides({
+      	auto: false,
+      	speed: 500,
+        namespace: "callbacks",
+        pager: true,
+      });
+    });
+  </script>
+
+<link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
+<script src="{% static 'js/wow.min.js' %}"></script>
+<script>
+ new WOW().init();
+</script>
+
+<script>
+    var user = '{{request.user}}'
+
+    function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+		function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+
+</script>
+
+</head>
+<body>
+		{% include 'Dashboard/header.html' %}
+
+        {% block content %}
+
+        {% endblock%}
+
+        {% include 'Dashboard/footer.html' %}
+
+        <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+</body>
+</html>

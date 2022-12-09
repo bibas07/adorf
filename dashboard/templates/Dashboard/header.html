@@ -1,0 +1,21 @@
+{% load static %}
+
+<div class="header">
+	<div class="header-top">
+		<div class="container">
+				<div class="col-sm-4 logo animated wow fadeInLeft" data-wow-delay=".5s">
+					<h1><a href="{% url 'index' %}">MA <span>NI</span></a></h1>
+				</div>
+				<div class="col-sm-4 world animated wow fadeInRight" data-wow-delay=".5s">
+						
+				</div>
+			<div class="col-sm-2 search animated wow fadeInRight" data-wow-delay=".5s">		
+				
+			</div>
+				<div class="clearfix"> </div>
+		</div>
+	</div>
+		{% include 'Dashboard/navbar.html' %}
+		{% include 'Dashboard/search.html' %}
+	</div>
+</div>

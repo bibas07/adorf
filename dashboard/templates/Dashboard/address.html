@@ -1,0 +1,238 @@
+{% extends 'Dashboard/base.html' %}
+{% load static%}
+
+{% block content %}
+
+<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: slideInLeft;">
+				<li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Delivery Form</li>
+			</ol>
+		</div>
+	</div>
+<div class="container">
+	<div class="register" id="form-wrapper">
+		<h2>Product Delivery Details</h2>
+		  	  <form id="testform" method="POST">{% csrf_token %}
+				 <div class="col-md-6  register-top-grid">
+					<h3>Costumer & Shipping Details</h3>
+					<div class="mation">
+						<div id="user-info">
+						<span>Name</span>
+						<input name="name" type="text" required data-error-msg="We need to know who you are" >
+
+						<span>Email Address</span>
+						 <input name="emailAddress" type="email" required data-error-msg="Please enter your valid email address">
+						</div>
+
+						<div id="shipping-info">
+						<span>State</span>
+						 <input name="state" type="text" required data-error-msg="We need to know which state">
+
+						<span>City</span>
+						 <input name="city" type="text" required data-error-msg="We need to know which city">
+
+						<span>Phone Number</span>
+						<input name="phoneNum" type="tel" required data-error-msg="Please enter your phone number">
+
+						<span>Pick Up Area</span>
+						 <textarea name="pickaddress" type="text" placeholder=" " required data-error-msg="Please enter valid address"></textarea>
+
+						</div>
+					</div>
+					<div class="clearfix"> </div>
+				  	<input id="form-button" class="btn btn-success btn-block" type="submit"  value="Continue">
+				 </div>
+			  </form>
+
+			  <div class=" col-md-6 register-bottom-grid">
+						<h3 style="text-align:center;">Order Summary</h3>
+							<div class="mation">
+								<div class="check-out">
+									<table >
+										  <tr>
+											<th>Quantity : {{order.get_cart_items}}</th>
+											<th></th>
+											<th></th>
+											<th>Price : ${{order.get_cart_total}}</th>
+										  </tr>
+										  <tr>
+											<th>Item</th>
+											<th>Qty</th>
+											<th>Prices</th>
+											<th>Sub total</th>
+										  </tr>
+										  {% for item in items %}
+										  <tr>
+											<td class="ring-in"><a class="at-in"><img src="{{item.product.imageURL}}" class="img-responsive" alt=""></a>
+											<div class="sed">
+												<h5>{{item.product.name}}</h5>
+											</div>
+											<div class="clearfix"> </div></td>
+											<td class="check" align="center">
+												<div class="quantity">
+												<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity img-responsive update-cart" src="{% static 'images/au.png' %}">
+												{{item.quantity}}
+												<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity img-responsive update-cart" src="{% static 'images/ad.png' %}">
+												</div>
+											</td>
+											<td>${{item.product.price|floatformat:2}}</td>
+											<td>${{item.get_total}}</td>
+										  </tr>
+										  {% endfor %}
+
+									</table>
+								</div>
+							</div>
+			  </div>
+
+			  <div id="payment-info" class="col-md-6  register-top-grid hidden" >
+						<h3>Card Details</h3>
+						<div class="mation">
+						<span>Name on Card</span>
+						<input id="cname" name="cname" type="text" required data-error-msg="Enter Card Name" >
+
+						<span>Card Number</span>
+						<input id="cardNum" name="cardNum" type="tel" required data-error-msg="Please enter your card number">
+
+						 <span>CVV</span>
+						 <input id="cvv" name="cvv" type="tel" required data-error-msg="Please enter your CVV">
+
+						<span>Expiry Date</span>
+						 <input id="datepicker" name="exd" type="text" value="mm/dd/yyyy" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '2/08/2013';}" required="">
+
+						<button id="make-payment" class="btn btn-success btn-block">Make Payment</button>
+						</div>
+			  </div>
+
+					 <div class="clearfix"> </div>
+<!--				  <input type="submit" value="Submit">-->
+<!--				  <input type="reset"  value="Reset">-->
+				  <div class="clearfix"> </div>
+
+
+	</div>
+</div>
+
+		<link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" />
+				<script src="{% static 'js/jquery-ui.js' %}"></script>
+				  <script>
+						  $(function() {
+							$( "#datepicker" ).datepicker();
+						  });
+				  </script>
+
+<!--		<script src="{% static 'js/attrvalidate.jquery.js' %}" type="text/javascript"></script>-->
+<!--		<script type="text/javascript">-->
+<!--		  $(document).ready(function(){-->
+<!--			$('#testform').attrvalidate();-->
+<!--			$('#resetBtn').click(function(){ $('#testform').attrvalidate('reset'); });-->
+<!--			$('#expandBtn').click(function(){-->
+<!--			  var collapsible = $('#' + $(this).attr('aria-controls'));-->
+<!--			  $(collapsible).attr('aria-hidden', ($(collapsible).attr('aria-hidden') === 'false'));-->
+<!--			  $(this).attr('aria-expanded', ($(this).attr('aria-expanded') === 'false'));-->
+<!--			});-->
+<!--		  });-->
+<!--		</script>-->
+
+<script>
+	var shipping = '{{order.shipping}}'
+	var total = '{{order.get_cart_total}}'
+
+	if (shipping == 'False'){
+		document.getElementById('shipping-info').innerHTML = ''
+	}
+
+	if (user != 'AnonymousUser'){
+		 	document.getElementById('user-info').innerHTML = ''
+		 }
+
+		if (shipping == 'False' && user != 'AnonymousUser'){
+			//Hide entire form if user is logged in and shipping is false
+				document.getElementById('form-wrapper').classList.add("hidden");
+				//Show payment if logged in user wants to buy an item that does not require shipping
+			    document.getElementById('payment-info').classList.remove("hidden");
+		}
+
+		var form = document.getElementById('testform')
+
+		form.addEventListener('submit', function(e){
+			e.preventDefault()
+			console.log('Form Submitted...')
+			document.getElementById('form-button').classList.add('hidden');
+			document.getElementById('payment-info').classList.remove('hidden');
+	 		})
+
+	     document.getElementById('make-payment').addEventListener('click', function(e){
+	    	submitFormData()
+	    })
+
+	    function submitFormData(){
+	    	console.log('Payment button clicked')
+
+	    	var userFormData = {
+				'name':null,
+				'email':null,
+				'total':total,
+			}
+
+			var shippingInfo = {
+				'state':null,
+				'city':null,
+				'phoneNum':null,
+				'pickaddress':null,
+			}
+
+			var paymentInfo = {
+				'cname':null,
+				'cardNum':null,
+				'cvv':null,
+				'exd':null,
+			}
+
+			if (shipping != 'False'){
+	    		shippingInfo.state = form.state.value
+		    	shippingInfo.city = form.city.value
+		    	shippingInfo.phoneNum = form.phoneNum.value
+		    	shippingInfo.pickaddress = form.pickaddress.value
+
+		    	paymentInfo.cname = document.getElementById('cname').value
+		    	paymentInfo.cardNum = document.getElementById('cardNum').value
+		    	paymentInfo.cvv = document.getElementById('cvv').value
+		    	paymentInfo.exd = document.getElementById('datepicker').value
+	    	}
+
+	    	if (user == 'AnonymousUser'){
+	    		userFormData.name = form.name.value
+	    		userFormData.email = form.email.value
+	    	}
+
+	    	console.log('Shipping Info:', shippingInfo)
+	    	console.log('User Info:', userFormData)
+
+	    	var url = "/process_order/"
+	    	fetch(url, {
+	    		method:'POST',
+	    		headers:{
+	    			'Content-Type':'applicaiton/json',
+	    			'X-CSRFToken':csrftoken,
+	    		},
+	    		body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo, 'payment':paymentInfo}),
+
+	    	})
+	    	.then((response) => response.json())
+	    	.then((data) => {
+				console.log('Success:', data);
+				alert('Transaction completed');
+
+				cart = {}
+				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+				window.location.href = "{% url 'index' %}"
+
+				})
+	    }
+</script>
+
+{% endblock%}

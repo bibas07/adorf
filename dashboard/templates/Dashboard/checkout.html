@@ -1,0 +1,57 @@
+{% extends 'Dashboard/base.html' %}
+{% load static %}
+
+{% block content %}	
+
+
+
+<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: slideInLeft;">
+				<li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Checkout</li>
+			</ol>
+		</div>
+	</div>
+
+<div class="container">
+	<div class="check-out">
+		<h2>Checkout</h2>
+    	    <table >
+		  <tr>
+			<th>Total Quantity : {{order.get_cart_items}} &emsp; Total Price : ${{order.get_cart_total}}</th>
+		  </tr>
+		  <tr>
+			<th>Item</th>
+			<th>Qty</th>		
+			<th>Prices</th>
+			<th>Delivery details</th>
+			<th>Sub total</th>
+		  </tr>
+		  {% for item in items %}
+		  <tr>
+			<td class="ring-in"><a class="at-in"><img src="{{item.product.imageURL}}" class="img-responsive" alt=""></a>
+			<div class="sed">
+				<h5>{{item.product.name}}</h5>
+				<p>(At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium) </p>
+			
+			</div>
+			<div class="clearfix"> </div></td>
+			<td class="check" align="center">
+			<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity img-responsive update-cart" src="{% static 'images/au.png' %}">
+				{{item.quantity}}
+			<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity img-responsive update-cart" src="{% static 'images/ad.png' %}">
+			</td>
+			<td>${{item.product.price|floatformat:2}}</td>
+			<td>FREE SHIPPING</td>
+			<td>${{item.get_total}}</td>
+		  </tr>
+		  {% endfor %}
+
+	</table>
+	<a href="{% url 'address' %}" class=" to-buy">PROCEED TO BUY</a>
+	<div class="clearfix"> </div>
+    </div>
+</div>
+
+{% endblock %}

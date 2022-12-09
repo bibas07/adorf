@@ -1,0 +1,99 @@
+{% extends 'Dashboard/base.html' %}
+{% load static%}
+
+{% block content %}
+
+<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: slideInLeft;">
+				<li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">{{request.user}}</li>
+			</ol>
+		</div>
+	</div>
+<div class="account">
+	<div class="container">
+		<div class="customerprofile" style="text-align:center;">
+		<h2>Account</h2>
+			   <div class="mation">
+				   <div>
+					<span>Username</span>
+					<input type="text" name="username" value="{{user.username}}" disabled>
+				   </div>
+
+					<div>
+					<span>Email Address</span>
+					<input type="email" name="email" value="{{user.email}}" disabled>
+					</div>
+               </div>
+        <h2>Shipping Details</h2>
+               <div class="mation">
+					{% for ship in shipping %}
+				   <div>
+					<span>State</span>
+					<input type="text" name="state" value="{{ship.state}}" disabled>
+				   </div>
+
+				   <div>
+					<span>City</span>
+					<input type="text" name="city" value="{{ship.city}}" disabled>
+				   </div>
+
+				   <div>
+				    <span>Phone Number</span>
+				    <input type="tel" name="phoneNum" value="{{ship.phoneNum}}" disabled>
+				   </div>
+
+					<div>
+				    <span>Pick Up Area</span>
+				    <input type="text" name="pickaddress" value="{{ship.pickaddress}}" disabled>
+					</div>
+					{% endfor %}
+               </div>
+        <h2>Payment Details</h2>
+			    <div class="mation">
+					{% for pay in payment %}
+					<div>
+					<span>Name on Card</span>
+					<input name="cname" type="text" value="{{pay.cname}}" disabled>
+					</div>
+
+					<div>
+					<span>Card Number</span>
+					<input name="cardNum" type="tel" value="{{pay.cardNum}}" disabled>
+					</div>
+
+					<div>
+					<span>CVV</span>
+					<input name="cvv" type="tel" value="{{pay.cvv}}" disabled>
+					</div>
+
+					<div>
+					<span>Expiry Date</span>
+					<input name="exd" type="text" value="{{pay.exd}}" disabled>
+					</div>
+					{% endfor %}
+			   </div>
+			   <div class="clearfix"> </div>
+		</div>
+		<h2>Order History</h2>
+			    <div class="check-out">
+				<table>
+					  <tr>
+						<th>Ordered Date</th>
+						<th>Order Completed</th>
+					  </tr>
+					  {% for ord in ordered %}
+					  <tr>
+						<td>{{ord.date_ordered}}</td>
+						<td>{{ord.complete}}</td>
+					  </tr>
+					  {% endfor %}
+				</table>
+			   </div>
+			   <div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
